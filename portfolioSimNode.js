@@ -2,8 +2,11 @@
 var express = require('express');
 // this calls the function
 var app = express();
+
+var async = require('async');
 //listen to port
 app.listen(3000);
+
 
 var request = require('request');
 
@@ -17,11 +20,8 @@ app.get('/', function(req, res) {
 
 
 // express can handle various 'http verbs': get, post, delete, put
-app.get('/getdata', function(req, response) {
-    request('https://financialmodelingprep.com/api/v3/historical-price-full/'+ req.query['one'] + 
-    '?from=2015-03-12&to=2019-03-12&apikey=81a3f7667917cdacff683f03c69b84ef', function(err, res, body) {
-    response.send(body);
-    console.log(req.query['one']);
+app.post('/getdata', function(req, response) {
+    console.log(req.body)
 });
-});
+
 
