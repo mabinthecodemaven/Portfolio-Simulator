@@ -10,15 +10,18 @@
     </head>
     <body>        
         <form action="/getdata" method="post" name="portfolio">           
-            <div>
-                <input name="t1" value="vt" />
-                <input name="p1" value="50" />
-            </div>
-            
-            <div>
-                <input name="t2" value="bndw" />
-                <input name="p2" value="50" />
-            </div>
+            <ul>
+                <li class='ticker'>
+                    <input name="t1" value="vt" />
+                    <input name="p1" value="50" />
+                </li>
+                
+                <li class='ticker'>
+                    <input name="t2" value="bndw" />
+                    <input name="p2" value="50" />
+                </li>
+
+            </ul>
     
             <button id="Generate">Generate</button>      
         </form>

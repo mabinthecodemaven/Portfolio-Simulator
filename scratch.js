@@ -1,7 +1,7 @@
-a = [1,2,3,4,5];
+let shit = { vt: '50', bndw: '50' }
 
-for (i=1; i<2; i++) {
-  console.log(i);
+for (shat in shit) {
+  console.log(shat)
 }
 
 //  'https://financialmodelingprep.com/api/v3/historical-price-full/'+ req.query['one'] + 

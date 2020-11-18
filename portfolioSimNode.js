@@ -1,17 +1,23 @@
-// this returns a function
+var request = require('request');
 var express = require('express');
-// this calls the function
+var bodyParser = require('body-parser')
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 var async = require('async');
 //listen to port
 app.listen(3000);
 
 
-var request = require('request');
+
+
 
 app.set('view engine', 'ejs');
 app.use( express.static( __dirname + '/client' ));
+
+
+
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html')
