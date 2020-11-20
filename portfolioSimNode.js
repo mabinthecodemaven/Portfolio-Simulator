@@ -1,11 +1,13 @@
 var request = require('request');
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var async = require('async');
+var apiReq = require('./apiReq');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-var async = require('async');
+
 //listen to port
 app.listen(3000);
 
@@ -27,7 +29,11 @@ app.get('/', function(req, res) {
 
 // express can handle various 'http verbs': get, post, delete, put
 app.post('/getdata', function(req, response) {
-    console.log(req.body)
+    var tickers = [];
+    for (ticker in req.body) {
+        tickers.push(ticker);
+    }
+    apiReq.logger();
 });
 
 
