@@ -23,7 +23,22 @@ function bindGenerateButton() {
         request.addEventListener('load', function() {
             if (request.status >= 200 && request.status < 400) {
                 var response = JSON.parse(request.responseText);
-                console.log(response)
+                //console.log(response);
+                //console.log(response[0].historical[0].date.split('-'));
+               // console.log(response[0].historical[0].date.split('-'));
+               for (stock of response) {
+                 //console.log(stock.historical);
+                 let dataTable = [];
+                 //console.log(stock.historical);
+                 for (day of stock.historical) {
+                   console.log(day.close);
+                   let dateArray = day.date.split('-');
+                   
+                   //[new Date(2018, 9, 27), 69];
+                   dataTable.push([new Date(dateArray[0], dateArray[1], dateArray[2]), day.close]);
+                 }
+               }
+
                 drawBasic();
             } else {
                 console.log('Error in network request: ' + req.statusText);
