@@ -10,12 +10,11 @@ function bindGenerateButton() {
         var data = {};
         for (entry of entries) {
             let ticker = entry.firstElementChild;
-            let percentage = ticker.nextElementSibling;
-            data[ticker.value] = percentage.value;
+            if (ticker.value != '') {
+              let percentage = ticker.nextElementSibling;
+              data[ticker.value] = parseInt(percentage.value);
+            }
         }
-
-        //console.log(JSON.stringify(data));
-
         
         var request = new XMLHttpRequest();
         request.open('POST', '/getdata', true);
@@ -24,22 +23,9 @@ function bindGenerateButton() {
             if (request.status >= 200 && request.status < 400) {
                 var response = JSON.parse(request.responseText);
                 //console.log(response);
-                //console.log(response[0].historical[0].date.split('-'));
-               // console.log(response[0].historical[0].date.split('-'));
-               for (stock of response) {
-                 //console.log(stock.historical);
-                 let dataTable = [];
-                 //console.log(stock.historical);
-                 for (day of stock.historical) {
-                   console.log(day.close);
-                   let dateArray = day.date.split('-');
-                   
-                   //[new Date(2018, 9, 27), 69];
-                   dataTable.push([new Date(dateArray[0], dateArray[1], dateArray[2]), day.close]);
-                 }
-               }
+                //performance(response);
 
-                drawBasic();
+                drawBasic(performance(response));
             } else {
                 console.log('Error in network request: ' + req.statusText);
             }
@@ -50,15 +36,13 @@ function bindGenerateButton() {
 }
 
 
-function drawBasic() {
+function drawBasic(table) {
 
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'X');
       data.addColumn('number', 'Dogs');
 
-      data.addRows([
-        [new Date(2018, 9, 27), 69]
-      ]);
+      data.addRows(table);
 
       var options = {
         hAxis: {
@@ -73,3 +57,34 @@ function drawBasic() {
 
       chart.draw(data, options);
     }
+
+
+function performance(stockData) {
+  let first = true;
+  let dataTable = {};
+  let tableOut = [];
+  for (stock of stockData) {
+    let shares = stock.percentage / stock.historical[0].open; 
+    //console.log(shares);
+    
+    for (day of stock.historical) {
+      let amount = shares * day.close;
+      //console.log(amount);
+      if ( !(day.date in dataTable)) {
+        dataTable[day.date] = amount;
+        console.log('new')
+      }
+      else {
+        dataTable[day.date] += amount;
+        console.log('old') 
+      }
+    }
+  }
+  for (date in dataTable) {
+    let dateArray = date.split('-');
+    let datum = [new Date(dateArray[0], dateArray[1]-1, dateArray[2]), dataTable[date]];
+    tableOut.push(datum);
+  }
+  return tableOut;
+
+}
