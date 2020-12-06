@@ -61,26 +61,35 @@ function drawBasic(table) {
 
 function performance(stockData) {
   let dataTable = {};
-  let tableOut = [];
-
-  
+  let tableOut = [];  
+  let rebal = 63;
+  let balance=100;
+  let periods = Math.floor(stockData[0].historical.length / rebal);
   for (stock of stockData) {
-    let historical = stock.historical.reverse()
-    let shares = stock.percentage / historical[0].open; 
-    let rebal = 63;
-    
-    for (day of historical) {
+    stock.historical.reverse();
+  }
 
-      let amount = shares * day.close;
-      //console.log(amount);
-      if ( !(day.date in dataTable)) {
-        dataTable[day.date] = amount;
-      }
-      else {
-        dataTable[day.date] += amount;
+  for (j=0; j<periods; j++) {
+    for (stock of stockData) {
+      let historical = stock.historical;
+      let shares = stock.percentage*balance*0.01 / historical[j*rebal].open; 
+      
+      for (i=j*rebal; i<(j+1)*rebal; i++) {
+        let day = historical[i];
+
+        let amount = shares * day.close;
+        //console.log(amount);
+        if ( !(day.date in dataTable)) {
+          dataTable[day.date] = amount;
+        }
+        else {
+          dataTable[day.date] += amount;
+        }
       }
     }
+  balance = dataTable[stockData[0].historical[i-1].date];
   }
+
   for (date in dataTable) {
     let dateArray = date.split('-');
     let datum = [new Date(dateArray[0], dateArray[1]-1, dateArray[2]), dataTable[date]];
