@@ -67,7 +67,7 @@ function performance(stockData) {
   for (stock of stockData) {
     let historical = stock.historical.reverse()
     let shares = stock.percentage / historical[0].open; 
-    //console.log(shares);
+    let rebal = 63;
     
     for (day of historical) {
 
