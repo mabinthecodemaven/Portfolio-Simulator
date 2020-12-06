@@ -70,10 +70,11 @@ function performance(stockData) {
     stock.historical.reverse();
   }
 
-  for (j=0; j<periods; j++) {
+  for (j=0; j<periods-1; j++) {
     for (stock of stockData) {
       let historical = stock.historical;
-      let shares = stock.percentage*balance*0.01 / historical[j*rebal].open; 
+      let shares = stock.percentage*balance*0.01 / historical[j*rebal].open;
+      console.log(historical[j*rebal]) 
       
       for (i=j*rebal; i<(j+1)*rebal; i++) {
         let day = historical[i];
