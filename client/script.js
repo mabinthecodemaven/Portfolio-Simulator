@@ -74,8 +74,8 @@ function performance(stockData) {
   for (; j<periods; j++) {
     for (stock of stockData) {
       let historical = stock.historical;
-      let shares = stock.percentage*balance*0.01 / historical[j*rebal].open;
-      //console.log(historical[j*rebal]) 
+      let shares = stock.percentage*balance*0.01 / historical[j*rebal-1].open;
+      console.log('hello') 
       
       for (i=j*rebal; i<(j+1)*rebal; i++) {
         let day = historical[i];
@@ -98,13 +98,13 @@ function performance(stockData) {
   for (stock of stockData) {
     let historical = stock.historical;
     
-    console.log(j*rebal-1);
+    //console.log(j*rebal-1);
     let shares = stock.percentage*balance*0.01 / historical[j*rebal-1].open;
 
     for (k=i;k<stock.historical.length; k++) {
       let day = historical[k];
       let amount = shares * day.close;
-      console.log(amount, stock.symbol);
+     // console.log(amount, stock.symbol);
       
       if ( !(day.date in dataTable)) {
         dataTable[day.date] = amount;
