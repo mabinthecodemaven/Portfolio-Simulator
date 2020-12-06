@@ -64,6 +64,7 @@ function performance(stockData) {
   let tableOut = [];  
   let rebal = 63;
   let balance=100;
+  let lifespan = stockData[0].historical.length;
   let periods = Math.floor(stockData[0].historical.length / rebal);
   for (stock of stockData) {
     stock.historical.reverse();
@@ -88,6 +89,24 @@ function performance(stockData) {
       }
     }
   balance = dataTable[stockData[0].historical[i-1].date];
+  }
+  for (stock of stockData) {
+    let historical = stock.historical;
+    let shares = stock.percentage*balance*0.01 / historical[j*rebal].open;
+    console.log(shares, stock.symbol)
+
+    for (k=i;k<stock.historical.length; k++) {
+      let day = historical[k];
+      let amount = shares * day.close;
+      console.log(amount, stock.symbol);
+      
+      if ( !(day.date in dataTable)) {
+        dataTable[day.date] = amount;
+      }
+      else {
+        dataTable[day.date] += amount;
+      }
+    }
   }
 
   for (date in dataTable) {
