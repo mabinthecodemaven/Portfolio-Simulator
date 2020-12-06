@@ -62,7 +62,7 @@ function drawBasic(table) {
 function performance(stockData) {
   let dataTable = {};
   let tableOut = [];  
-  let rebal = 20;
+  let rebal = 63;
   let balance=100;
   let periods = Math.floor(stockData[0].historical.length / rebal);
   let j=1/rebal;
@@ -77,7 +77,7 @@ function performance(stockData) {
       let shares = stock.percentage*balance*0.01 / historical[j*rebal-1].open;
       console.log('hello') 
       
-      for (i=j*rebal; i<(j+1)*rebal; i++) {
+      for (i=(j*rebal)-1; i<(j+1)*rebal-1; i++) {
         let day = historical[i];
 
         let amount = shares * day.close;
@@ -120,6 +120,7 @@ function performance(stockData) {
     let datum = [new Date(dateArray[0], dateArray[1]-1, dateArray[2]), dataTable[date]];
     tableOut.push(datum);
   }
+  console.log(tableOut)
   return tableOut;
 
 }
