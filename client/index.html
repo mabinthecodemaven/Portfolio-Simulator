@@ -11,23 +11,28 @@
             p{font-size: 16px; text-align: center;}
         </style>
     </head>
-    <body>        
-        <form action="/getdata" method="post" name="portfolio">           
+    <body> 
+               
+        <form action="/getdata" method="post">  
+            <label for="start">Start date:</label>
+
+            <input type="date" id="date" name="sim-start" value="2010-01-04">         
             <ul>
-                <li class='ticker'>
-                    <input name="t1" value="vt" />
-                    <input name="p1" value="50" />
+                <li class='portfolio'>
+                    <input value="spy" />
+                    <input value="50" />
                 </li>
                 
-            <li class='ticker'>
-                    <input name="t2" value="bndw" />
-                    <input name="p2" value="50" />
+            <li class='portfolio'>
+                    <input value="agg" />
+                    <input value="50" />
                 </li> 
 
             </ul>
     
             <button id="Generate">Generate</button>      
         </form>
+
         <div id="chart_div"></div>
         
 

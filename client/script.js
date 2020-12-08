@@ -6,8 +6,10 @@ google.charts.load('current', {packages: ['corechart', 'line']});
 function bindGenerateButton() {
     document.getElementById('Generate').addEventListener('click', function(event) {    
         event.preventDefault();
-        let entries = Array.from(document.getElementsByClassName('ticker'));
+        let entries = Array.from(document.getElementsByClassName('portfolio'));
+        let date = document.getElementById('date').value;
         var data = {};
+        data['date'] = date;
         for (entry of entries) {
             let ticker = entry.firstElementChild;
             if (ticker.value != '') {
@@ -22,7 +24,7 @@ function bindGenerateButton() {
         request.addEventListener('load', function() {
             if (request.status >= 200 && request.status < 400) {
                 var response = JSON.parse(request.responseText);
-                //console.log(response);
+                console.log(response);
                 //performance(response);
 
                 drawBasic(performance(response));
@@ -72,12 +74,14 @@ function performance(stockData) {
   }
 
   for (; j<periods; j++) {
+    let period = Math.round(j*rebal);
     for (stock of stockData) {
       let historical = stock.historical;
-      let shares = stock.percentage*balance*0.01 / historical[j*rebal-1].open;
-      console.log('hello') 
+      console.log(period-1);
+      let shares = stock.percentage*balance*0.01 / historical[period-1].open;
+   
       
-      for (i=(j*rebal)-1; i<(j+1)*rebal-1; i++) {
+      for (i=period-1; i<(j+1)*rebal-1; i++) {
         let day = historical[i];
 
         let amount = shares * day.close;
@@ -98,8 +102,10 @@ function performance(stockData) {
   for (stock of stockData) {
     let historical = stock.historical;
     
-    //console.log(j*rebal-1);
-    let shares = stock.percentage*balance*0.01 / historical[j*rebal-1].open;
+    let period = Math.round(j*rebal);
+    
+    //console.log(period-1);
+    let shares = stock.percentage*balance*0.01 / historical[period-1].open;
 
     for (k=i;k<stock.historical.length; k++) {
       let day = historical[k];
@@ -120,7 +126,7 @@ function performance(stockData) {
     let datum = [new Date(dateArray[0], dateArray[1]-1, dateArray[2]), dataTable[date]];
     tableOut.push(datum);
   }
-  console.log(tableOut)
+  //console.log(tableOut)
   return tableOut;
 
 }

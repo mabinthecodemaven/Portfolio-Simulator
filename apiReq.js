@@ -10,13 +10,14 @@ exports.reqTickers = function(req, res) {
         }
     }
     console.log(req.body);
+    let startDate = req.body['date'];
     
     var tickerData = [];
     
     async.map(tickers,
         function(ticker, callback) {
             request('https://financialmodelingprep.com/api/v3/historical-price-full/'+ ticker + 
-            '?from=2019-11-19&to=2020-11-19&apikey=81a3f7667917cdacff683f03c69b84ef',
+            '?from='+ startDate +'&to=2020-11-19&apikey=81a3f7667917cdacff683f03c69b84ef',
                 function(err, response, body) {
                     let data = JSON.parse(body);
                     data['percentage'] = req.body[ticker];
