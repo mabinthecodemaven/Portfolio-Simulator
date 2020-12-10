@@ -1,4 +1,5 @@
 bindGenerateButton();
+bindAddButton();
 google.charts.load('current', {packages: ['corechart', 'line']});
 //google.charts.setOnLoadCallback(drawBasic);
 
@@ -77,7 +78,7 @@ function performance(stockData) {
     let period = Math.round(j*rebal);
     for (stock of stockData) {
       let historical = stock.historical;
-      console.log(period-1);
+      //console.log(period-1);
       let shares = stock.percentage*balance*0.01 / historical[period-1].open;
    
       
@@ -96,8 +97,6 @@ function performance(stockData) {
     }
   balance = dataTable[stockData[0].historical[i-1].date];
   }
-
-  
 
   for (stock of stockData) {
     let historical = stock.historical;
@@ -130,3 +129,23 @@ function performance(stockData) {
   return tableOut;
 
 }
+
+function bindAddButton() {
+  document.getElementById('add').addEventListener('click', function(event) {
+    
+    
+    let row = document.createElement('li');
+    row.setAttribute('class', 'portfolio');
+
+    for (i=0; i<2; i++) {
+      let input = document.createElement('input');
+      row.appendChild(input);
+    }
+    
+
+    document.getElementById('tickers').appendChild(row);
+    console.log('added');
+
+  })
+}
+

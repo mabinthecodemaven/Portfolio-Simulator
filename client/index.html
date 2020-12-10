@@ -15,15 +15,15 @@
                
         <form action="/getdata" method="post">  
             <label for="start">Start date:</label>
-
             <input type="date" id="date" name="sim-start" value="2010-01-04">         
-            <ul>
+
+            <ul id=tickers>
                 <li class='portfolio'>
                     <input value="spy" />
                     <input value="50" />
                 </li>
                 
-            <li class='portfolio'>
+                <li class='portfolio'>
                     <input value="agg" />
                     <input value="50" />
                 </li> 
@@ -32,6 +32,7 @@
     
             <button id="Generate">Generate</button>      
         </form>
+        <button id="add">Add a stock</button>
 
         <div id="chart_div"></div>
         
