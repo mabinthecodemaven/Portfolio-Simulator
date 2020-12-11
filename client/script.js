@@ -11,12 +11,20 @@ function bindGenerateButton() {
         let date = document.getElementById('date').value;
         var data = {};
         data['date'] = date;
+        let perctotal = 0;
         for (entry of entries) {
             let ticker = entry.firstElementChild;
             if (ticker.value != '') {
               let percentage = ticker.nextElementSibling;
+
               data[ticker.value] = parseInt(percentage.value);
+              perctotal += parseFloat(percentage.value);
             }
+        }
+
+        if (perctotal != 100) {
+          alert('Percentages must total to 100!');
+          return;
         }
         
         var request = new XMLHttpRequest();
@@ -141,7 +149,6 @@ function bindAddButton() {
       let input = document.createElement('input');
       row.appendChild(input);
     }
-    
 
     document.getElementById('tickers').appendChild(row);
     console.log('added');

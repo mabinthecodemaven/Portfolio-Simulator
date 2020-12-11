@@ -16,6 +16,7 @@ exports.reqTickers = function(req, res) {
     
     async.map(tickers,
         function(ticker, callback) {
+            
             request('https://financialmodelingprep.com/api/v3/historical-price-full/'+ ticker + 
             '?from='+ startDate +'&to=2020-11-19&apikey=81a3f7667917cdacff683f03c69b84ef',
                 function(err, response, body) {
