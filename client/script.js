@@ -9,15 +9,15 @@ function bindGenerateButton() {
         event.preventDefault();
         let entries = Array.from(document.getElementsByClassName('portfolio'));
         let date = document.getElementById('date').value;
-        var data = {};
+        let data = {};
+        data['stocks'] = {}
         data['date'] = date;
         let perctotal = 0;
         for (entry of entries) {
             let ticker = entry.firstElementChild;
             if (ticker.value != '') {
               let percentage = ticker.nextElementSibling;
-
-              data[ticker.value] = parseInt(percentage.value);
+              data['stocks'][ticker.value] = parseInt(percentage.value);
               perctotal += parseFloat(percentage.value);
             }
         }
@@ -31,14 +31,16 @@ function bindGenerateButton() {
         request.open('POST', '/getdata', true);
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.addEventListener('load', function() {
+          var response = JSON.parse(request.responseText);
             if (request.status >= 200 && request.status < 400) {
-                var response = JSON.parse(request.responseText);
+                
                 console.log(response);
                 //performance(response);
 
                 drawBasic(performance(response));
-            } else {
-                console.log('Error in network request: ' + req.statusText);
+            } else if (request.status == 500) {
+                alert('Invalid ticker: '+ response);
+                
             }
         })
         
