@@ -85,10 +85,12 @@ function performance(stockData) {
   }
 
   for (; j<periods; j++) {
+    j=Math.round(j*rebal)/rebal;
     let period = Math.round(j*rebal);
     for (stock of stockData) {
       let historical = stock.historical;
       //console.log(period-1);
+      console.log(j*rebal);
       let shares = stock.percentage*balance*0.01 / historical[period-1].open;
    
       
